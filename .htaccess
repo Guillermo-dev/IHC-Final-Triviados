@@ -1,0 +1,17 @@
+<FilesMatch \.html$>
+    Require all denied
+</FilesMatch>
+
+Options -Indexes
+
+RewriteEngine on
+
+RewriteRule ^src/.* - [END]
+
+RewriteRule ^uploads/.* - [END]
+
+RewriteRule ^node_modules/.* - [END]
+
+RewriteRule ^api/.* api.php [END]
+
+RewriteRule .* index.php [END]
