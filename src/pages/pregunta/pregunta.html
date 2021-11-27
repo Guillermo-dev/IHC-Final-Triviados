@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <base href="/src/pages/pregunta/">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Triviados</title>
-    <link type="text/css" rel="stylesheet" href="pregunta.css">
-    <!--<link rel="icon" href="/src/global/images/favicon.ico" type="image/x-icon">-->
-    <script type="module" src="pregunta.js"></script>
-</head>
-<body>
-    <div>PREGUNTA</div>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <base href="/src/pages/pregunta/" />
+        <title>Triviados</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link type="text/css" rel="stylesheet" href="pregunta.css" />
+        <link rel="icon" href="/src/global/images/favicon.ico" type="image/x-icon">
+        <script type="module" src="pregunta.js"></script>
+    </head>
+    <body>
+        <div id="google_translate_element" style="position:absolute;top:10px;right:10px"></div>
+        
+        <div>PREGUNTA</div>
+
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement(
+                    {
+                        layout: google.translate.TranslateElement.InlineLayout
+                            .SIMPLE,
+                    },
+                    "google_translate_element"
+                );
+            }
+        </script>
+
+        <script
+            type="text/javascript"
+            src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+        ></script>
+    </body>
 </html>

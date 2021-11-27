@@ -1,1 +1,14 @@
 @import "../../global/css/general.css";
+@import "../../global/css/general.css";
+
+html, body {
+    width: 100vw;
+    min-height: 100vh;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
