@@ -123,12 +123,17 @@ export default function Pregunta() {
 
     function submitRespuesta(event) {
         event.preventDefault();
-        console.log(event.submitter.value)
+
+        //set disable buttons
+        //set color button
+        //sweet
+
         const data = {
             pregunta: _pregunta,
             respuestaCorrecta: _respuestasCorrecta,
             respuesta: event.submitter.value
         };
+
         fetch(`/api/preguntas`, {
             method: 'POST',
             header: {
@@ -138,10 +143,7 @@ export default function Pregunta() {
         }).then(httpResp => httpResp.json()).then(response => {
             if (response.status === 'success') {
                 window.iziToast.success({message: 'NAISU'});
-                //Modificar response status
-                //sweet Correcto
-            } else {
-                //sweet Incorrecto
+            } else {    
                 window.iziToast.error({message: response.error.error});
             }
         }).catch(reason => {
