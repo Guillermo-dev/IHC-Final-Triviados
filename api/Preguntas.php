@@ -14,6 +14,9 @@ abstract class Preguntas {
         // logica de cantidad de respuestas por dificultad
 
         // suma de puntuacion y guardado de pregunta
-        var_dump($data);
+        $maximoPreguntas = 10;
+        $cantidadPreguntas = 5;
+        Response::getResponse()->appendData('maximoPreguntas', $maximoPreguntas);
+        Response::getResponse()->appendData('cantidadPreguntas', $cantidadPreguntas);
     }
 }

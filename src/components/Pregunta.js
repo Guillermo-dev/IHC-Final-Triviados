@@ -133,18 +133,18 @@ export default function Pregunta() {
             <div>
                 <form class="p-4" data-js="PreguntaForm">
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value="${respuestas[0]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value="${respuestas[0]}">
                             ${respuestas[0]}
                         </button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[1]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value ="${respuestas[1]}">
                             ${respuestas[1]}
                         </button>
                     </div>
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[2]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value ="${respuestas[2]}">
                             ${respuestas[2]}
                         </button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[3]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value ="${respuestas[3]}">
                             ${respuestas[3]}
                         </button>
                     </div>
@@ -159,10 +159,11 @@ export default function Pregunta() {
 
     function submitRespuesta(event) {
         event.preventDefault();
+        const botones = _this.root.querySelectorAll('[data-js="button"]');
+        console.log(botones)
 
         //set disable buttons
         //set color button
-        //sweet
 
         const data = {
             pregunta: _pregunta,
@@ -178,12 +179,36 @@ export default function Pregunta() {
             body: JSON.stringify(data)
         }).then(httpResp => httpResp.json()).then(response => {
             if (response.status === 'success') {
-                window.iziToast.success({message: 'NAISU'});
+                const cantPreg = response.data.cantidadPreguntas;
+                const maxPreg = response.data.maximoPreguntas;
+                if(_respuestasCorrecta === event.submitter.value){
+                    Sweetalert2.fire({
+                            icon: 'success',
+                            title: 'Respuesta correcta',
+                            html: '+10 puntos',
+                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta'
+                        }).then(result => {
+                            if (result.isConfirmed) {
+                                // Nueva pregunta / puntuacion
+                            }
+                        });
+                }else{
+                    Sweetalert2.fire({
+                            icon: 'error',
+                            title: 'Respuesta incorrecta',
+                            html: '-5 puntos',
+                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta'
+                        }).then(result => {
+                            if (result.isConfirmed) {
+                                // Nueva pregunta / puntuacion
+                            }
+                        });
+                }
             } else {    
-                window.iziToast.error({message: response.error.error});
+                iziToast.error({message: response.error.error});
             }
         }).catch(reason => {
-            window.iziToast.error({message: reason.toString()});
+            iziToast.error({message: reason.toString()});
         });
     }
     _constructor();
