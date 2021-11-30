@@ -1,1 +1,13 @@
 @import "../../global/css/general.css";
+
+p {
+    font-size : 25px
+}
+button {
+    min-width : 250px
+}
+@media (max-width: 768px) {
+    p {
+        font-size : 17px
+    }
+}
