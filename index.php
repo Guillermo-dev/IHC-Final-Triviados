@@ -9,6 +9,7 @@ $router = new Router();
 include_once 'routes/web.php';
 
 try {
+    session_start();
     $router->run();
 } catch (Exception $e) {
     \controllers\Error::page500();
