@@ -111,10 +111,10 @@ export default function Pregunta() {
     }
 
     function proccesPregunta(pregunta){
-        // Randomizar orden de respuestas
         _pregunta = pregunta.question;
         _respuestasCorrecta = pregunta.correct_answer
 
+        // Randomizar orden de respuestas
         let respuestas = pregunta.incorrect_answers;
         respuestas.push(pregunta.correct_answer);
         for (let i = respuestas.length - 1; i > 0; i--) {
@@ -133,12 +133,20 @@ export default function Pregunta() {
             <div>
                 <form class="p-4" data-js="PreguntaForm">
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value="${respuestas[0]}">${respuestas[0]}</button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[1]}">${respuestas[1]}</button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value="${respuestas[0]}">
+                            ${respuestas[0]}
+                        </button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[1]}">
+                            ${respuestas[1]}
+                        </button>
                     </div>
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[2]}">${respuestas[2]}</button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[3]}">${respuestas[3]}</button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[2]}">
+                            ${respuestas[2]}
+                        </button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[3]}">
+                            ${respuestas[3]}
+                        </button>
                     </div>
                 </form>
             </div>
