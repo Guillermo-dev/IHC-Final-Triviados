@@ -9,23 +9,25 @@ createStyle()._content(`
     display: none !important;
 }
 .Pregunta{
-    //background-color: red;
     overflow: hidden;
 }
 
 .question{
     min-height: 450px;
+    min-width: 700px;
 }
 
 @media(max-width: 1400px) {
     .question{
         min-height: 300px;
+        min-width: 500px;
     }
 }
 
 @media (max-width: 768px) {
     .question{
         min-height: 250px;
+        min-width: 200px;
     }
     h1 {
         font-size : 20px
@@ -43,7 +45,33 @@ export default function Pregunta() {
     this.root = createElement('div')._class('Pregunta')._html(`
     <!--Loading-->
     <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
-        <span class="spinner-border"></span>
+        <div class="text-center">
+            <div class="question border border-dark shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+                <h1 class="col">
+                    <span class="spinner-border"></span>
+                </h1>
+            </div>
+            <div>
+                <form class="p-4">
+                    <div class="row content">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                            <span class="spinner-border"></span>
+                        </button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                            <span class="spinner-border"></span>
+                        </button>
+                    </div>
+                    <div class="row content">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                            <span class="spinner-border"></span>
+                        </button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                            <span class="spinner-border"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!--Loaded-->
