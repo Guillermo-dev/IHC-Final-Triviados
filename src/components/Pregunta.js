@@ -17,6 +17,12 @@ createStyle()._content(`
     min-height: 450px;
 }
 
+@media(max-width: 1400px) {
+    .question{
+        min-height: 300px;
+    }
+}
+
 @media (max-width: 768px) {
     .question{
         min-height: 250px;
@@ -48,6 +54,8 @@ export default function Pregunta() {
     </div>
     `);
     const _content = _this.root.querySelector('[data-js="content"]');
+    let _pregunta = '';
+    let _respuestasCorrecta = '';
 
     function _constructor() {
         fetchPregunta()
@@ -76,6 +84,9 @@ export default function Pregunta() {
 
     function proccesPregunta(pregunta){
         // Randomizar orden de respuestas
+        _pregunta = pregunta.question;
+        _respuestasCorrecta = pregunta.correct_answer
+
         let respuestas = pregunta.incorrect_answers;
         respuestas.push(pregunta.correct_answer);
         for (let i = respuestas.length - 1; i > 0; i--) {
@@ -92,21 +103,51 @@ export default function Pregunta() {
                 </h1>
             </div>
             <div>
-                <form class="p-4">
+                <form class="p-4" data-js="PreguntaForm">
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">${respuestas[0]}</button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">${respuestas[1]}</button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value="${respuestas[0]}">${respuestas[0]}</button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[1]}">${respuestas[1]}</button>
                     </div>
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">${respuestas[2]}</button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">${respuestas[3]}</button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[2]}">${respuestas[2]}</button>
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" value ="${respuestas[3]}">${respuestas[3]}</button>
                     </div>
                 </form>
             </div>
         </div>
         `)));
+        const preguntaForm = _this.root.querySelector('[data-js="PreguntaForm"]');
+        preguntaForm.onsubmit = submitRespuesta;
+
     }
 
+    function submitRespuesta(event) {
+        event.preventDefault();
+        console.log(event.submitter.value)
+        const data = {
+            pregunta: _pregunta,
+            respuestaCorrecta: _respuestasCorrecta,
+            respuesta: event.submitter.value
+        };
+        fetch(`/api/preguntas`, {
+            method: 'POST',
+            header: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(httpResp => httpResp.json()).then(response => {
+            if (response.status === 'success') {
+                window.iziToast.success({message: 'NAISU'});
+                //Modificar response status
+                //sweet Correcto
+            } else {
+                //sweet Incorrecto
+                window.iziToast.error({message: response.error.error});
+            }
+        }).catch(reason => {
+            window.iziToast.error({message: reason.toString()});
+        });
+    }
     _constructor();
 }
 Object.setPrototypeOf(Pregunta.prototype, new Component());

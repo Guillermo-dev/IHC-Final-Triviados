@@ -8,8 +8,6 @@ RewriteEngine on
 
 RewriteRule ^src/.* - [END]
 
-RewriteRule ^uploads/.* - [END]
-
 RewriteRule ^node_modules/.* - [END]
 
 RewriteRule ^api/.* api.php [END]
