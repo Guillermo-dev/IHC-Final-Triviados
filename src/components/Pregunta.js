@@ -27,7 +27,7 @@ createStyle()._content(`
 @media (max-width: 768px) {
     .question{
         min-height: 250px;
-        min-width: 200px;
+        min-width: auto;
     }
     h1 {
         font-size : 20px
