@@ -71,16 +71,15 @@ export default function Puntuacion() {
             .then((httpResp) => httpResp.json())
             .then((response) => {
                 if (response.status === "success") {
-                    const { puntuacion, mensaje } = response.data;
                     _this.setClassState("css-loaded");
+                    const { puntuacion, mensaje } = response.data;
                     if (response.data.cheating != undefined) {
                         juegoTerminadoTrampa();
                     } else {
                         processPuntuacion(puntuacion, mensaje);
                     }
                 } else {
-                    window.iziToast.error({ message: response.error });
-                    location.href = "/";
+                    errorInernoAlert()
                 }
             })
             .catch((reason) => {
@@ -115,6 +114,17 @@ export default function Puntuacion() {
             icon: "warning",
             title: "No hagas trampas",
             confirmButtonText: "Volver a empezar",
+        }).then(() => {
+            location.href = "/";
+        });
+    }
+
+    function errorInernoAlert() {
+        Sweetalert2.fire({
+            icon: "question",
+            title: "Error inesperado",
+            html: "Ocurrio un error inesperado, intenta comenzar otra partida",
+            confirmButtonText: "Volver a intentar",
         }).then(() => {
             location.href = "/";
         });
