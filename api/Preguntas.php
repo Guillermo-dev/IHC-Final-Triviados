@@ -12,7 +12,7 @@ abstract class Preguntas {
         $data = Request::getBodyAsJson();
 
         if(!isset($_SESSION['dificultad']))
-            throw new Exception;
+            throw new Exception('Error al cargar la partida');
 
         if(!isset($_SESSION['partida'])){
             $_SESSION['partida']['cantidadPreguntas'] = 0;
@@ -42,16 +42,14 @@ abstract class Preguntas {
                 }
             }
         }
-
-        // suma de puntuacion y guardado de pregunta
         $maximoPreguntas = $_SESSION['partida']['maximoPreguntas'];
         $cantidadPreguntas = $_SESSION['partida']['cantidadPreguntas'];
+
+        Response::getResponse()->appendData('maximoPreguntas', $maximoPreguntas);
+        Response::getResponse()->appendData('cantidadPreguntas', $cantidadPreguntas);
 
         // TODO: sacar
         Response::getResponse()->appendData('puntuacion', $_SESSION['partida']['puntuacion']);
         Response::getResponse()->appendData('preguntas', $_SESSION['partida']['preguntas']);
-
-        Response::getResponse()->appendData('maximoPreguntas', $maximoPreguntas);
-        Response::getResponse()->appendData('cantidadPreguntas', $cantidadPreguntas);
     }
 }
