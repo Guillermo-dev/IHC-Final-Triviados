@@ -10,7 +10,7 @@ if (isset($router)) {
 
     $router->post('/preguntas', 'api\Preguntas@saveResuesta');
 
-    $router->get('/puntuaciones', 'api\Puntuacion@getPuntuacion');
+    $router->get('/puntuaciones', 'api\Puntuaciones@getPuntuacion');
 
     $router->set404(function () {
         Response::getResponse()->setStatus('error');

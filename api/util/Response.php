@@ -29,7 +29,7 @@ class Response implements JsonSerializable {
     }
 
 
-    public function getError(): ?ResponseError {
+    public function getError(): ?string {
         return $this->error;
     }
 
@@ -43,7 +43,7 @@ class Response implements JsonSerializable {
 
 
     public function setError(string $error) {
-        $this->error = new ResponseError($error);
+        $this->error = $error;
     }
 
 

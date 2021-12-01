@@ -208,7 +208,7 @@ export default function Pregunta() {
                     location.href =  cantPreg >= maxPreg ? '/puntuacion' : `/pregunta/${_dificultad}`;
                 }
             } else {    
-                iziToast.error({message: response.error.error});
+                iziToast.error({message: response.error});
             }
         }).catch(reason => {
             iziToast.error({message: reason.toString()});

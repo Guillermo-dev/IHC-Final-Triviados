@@ -10,6 +10,7 @@ $router = new Router();
 include_once 'routes/api.php';
 
 try {
+    session_start();
     $router->run();
 } catch (Exception $e) {
     Response::getResponse()->setError($e->getMessage());
