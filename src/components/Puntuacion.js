@@ -72,7 +72,7 @@ export default function Puntuacion() {
         .then(response => {
             if (response.status === 'success') {
                 _this.setClassState("css-loaded");
-                processPuntuacion(response.data.puntuacion)
+                processPuntuacion(response.data.puntuacion, response.data.mensaje)
             } else {
                 window.iziToast.error({ message: response.error });
             }
@@ -82,15 +82,14 @@ export default function Puntuacion() {
         });
     }
 
-    function processPuntuacion(puntuacion){
-        console.log(puntuacion);
-        let mensaje = '';
+    function processPuntuacion(puntuacion, mensaje){
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
             <div class="text-center">
                 <div class="score shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                     <h1 class="col">
-                        <div>Puntuacion: ${puntuacion}</div>
+                        <p>Puntuacion: ${puntuacion}</p>
+                        <p>${mensaje}</p>
                     </h1>
                 </div>
                 <div>

@@ -13,7 +13,7 @@ abstract class Preguntas {
 
         if(!isset($_SESSION['dificultad']))
             throw new Exception('Error al cargar la partida');
-
+        //TODO: logica al controller para evitar F5
         if(!isset($_SESSION['partida'])){
             $_SESSION['partida']['cantidadPreguntas'] = 0;
             $_SESSION['partida']['puntuacion'] = 0;
