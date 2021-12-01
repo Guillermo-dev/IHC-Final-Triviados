@@ -88,10 +88,10 @@ export default function Pregunta() {
     let _maxPreg = 0;
 
     function _constructor() {
-        fetchPregunta();
+        _fetchPregunta();
     }
 
-    function fetchPregunta() {
+    function _fetchPregunta() {
         _this.setClassState("css-loading");
         _content.innerHTML = "";
         const url = window.location.pathname;
@@ -104,7 +104,7 @@ export default function Pregunta() {
             .then((response) => {
                 if (response.response_code === 0) {
                     _this.setClassState("css-loaded");
-                    proccesPregunta(response.results[0]);
+                    _proccesPregunta(response.results[0]);
                 } else {
                     iziToast.error("Error interno");
                 }
@@ -114,7 +114,7 @@ export default function Pregunta() {
             });
     }
 
-    function proccesPregunta(pregunta) {
+    function _proccesPregunta(pregunta) {
         _pregunta = pregunta.question;
         _respuestasCorrecta = pregunta.correct_answer;
 
@@ -161,15 +161,17 @@ export default function Pregunta() {
         const preguntaForm = _this.root.querySelector(
             '[data-js="PreguntaForm"]'
         );
-        preguntaForm.onsubmit = submitRespuesta;
+        preguntaForm.onsubmit = _submitRespuesta;
     }
 
-    function submitRespuesta(event) {
+    function _submitRespuesta(event) {
         event.preventDefault();
         const botones = Array.from(
             _this.root.querySelectorAll('[data-js="button"]')
         );
 
+        const correctAudio = new Audio("/src/global/media/correcto.mp3");
+        const incorrectAudio = new Audio("/src/global/media/incorrecto.mp3");
         botones.forEach((boton) => {
             boton.disabled = true;
             if (boton.value === _respuestasCorrecta) {
@@ -180,6 +182,9 @@ export default function Pregunta() {
                 if (boton.value != _respuestasCorrecta) {
                     boton.classList.remove("btn-light");
                     boton.classList.add("btn-danger");
+                    incorrectAudio.play();
+                }else{
+                    correctAudio.play();
                 }
             }
         });
@@ -190,42 +195,43 @@ export default function Pregunta() {
             respuesta: event.submitter.value,
         };
 
+        
+
         fetch(`/api/preguntas`, {
             method: "POST",
             header: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
-        })
+            body: JSON.stringify(data),})
             .then((httpResp) => httpResp.json())
             .then((response) => {
                 if (response.status === "success") {
                     _cantPreg = response.data.cantidadPreguntas;
                     _maxPreg = response.data.maximoPreguntas;
                     if (response.data.cheating != undefined) {
-                        juegoTerminadoTrampa();
+                        _juegoTerminadoTrampa();
                     } else {
                         if (_cantPreg > _maxPreg) {
-                            juegoTerminado();
+                            _juegoTerminado();
                         } else {
                             if (_respuestasCorrecta === event.submitter.value) {
-                                respuestaCorrecta();
+                                _respuestaCorrecta();
                             } else {
-                                respuestaInorrecta();
+                                _respuestaInorrecta();
                             }
                         }
                     }
-                    showBtnSiguiente();
+                    _showBtnSiguiente();
                 } else {
-                    juegoTerminadoError()
+                    _juegoTerminadoError()
                 }
             })
             .catch((reason) => {
-                juegoTerminadoError()
+                _juegoTerminadoError()
             });
     }
 
-    function juegoTerminado() {
+    function _juegoTerminado() {
         Sweetalert2.fire({
             icon: "info",
             title: "Juego terminado",
@@ -241,7 +247,7 @@ export default function Pregunta() {
         });
     }
 
-    function respuestaCorrecta() {
+    function _respuestaCorrecta() {
         Sweetalert2.fire({
             icon: "success",
             title: "Respuesta correcta",
@@ -262,7 +268,7 @@ export default function Pregunta() {
         });
     }
 
-    function respuestaInorrecta() {
+    function _respuestaInorrecta() {
         Sweetalert2.fire({
             icon: "error",
             title: "Respuesta incorrecta",
@@ -283,7 +289,7 @@ export default function Pregunta() {
         });
     }
 
-    function juegoTerminadoTrampa() {
+    function _juegoTerminadoTrampa() {
         Sweetalert2.fire({
             icon: "warning",
             title: "No hagas trampas",
@@ -293,7 +299,7 @@ export default function Pregunta() {
         });
     }
 
-    function juegoTerminadoError() {
+    function _juegoTerminadoError() {
         Sweetalert2.fire({
             icon: "question",
             title: "Error inesperado",
@@ -304,7 +310,7 @@ export default function Pregunta() {
         });
     }
 
-    function showBtnSiguiente(){
+    function _showBtnSiguiente(){
         const btnSiguiente = _this.root.querySelector(
             '[data-js="siguienteBtn"]'
         );
