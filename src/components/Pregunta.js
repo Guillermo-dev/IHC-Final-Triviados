@@ -46,7 +46,7 @@ export default function Pregunta() {
     <!--Loading-->
     <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
         <div class="text-center">
-            <div class="question border border-dark shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+            <div class="question shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     <span class="spinner-border"></span>
                 </h1>
@@ -54,18 +54,18 @@ export default function Pregunta() {
             <div>
                 <form class="p-4">
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded">
                             <span class="spinner-border"></span>
                         </button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded">
                             <span class="spinner-border"></span>
                         </button>
                     </div>
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded">
                             <span class="spinner-border"></span>
                         </button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded">
                             <span class="spinner-border"></span>
                         </button>
                     </div>
@@ -82,6 +82,7 @@ export default function Pregunta() {
     </div>
     `);
     const _content = _this.root.querySelector('[data-js="content"]');
+    let _dificultad = '';
     let _pregunta = '';
     let _respuestasCorrecta = '';
 
@@ -93,9 +94,9 @@ export default function Pregunta() {
         _this.setClassState("css-loading");
         _content.innerHTML = "";
         const url = window.location.pathname;
-        const dificultad = url.substring(url.lastIndexOf("/") + 1);
+        _dificultad = url.substring(url.lastIndexOf("/") + 1);
 
-        fetch(`https://opentdb.com/api.php?amount=1&difficulty=${dificultad}&type=multiple`)
+        fetch(`https://opentdb.com/api.php?amount=1&difficulty=${_dificultad}&type=multiple`)
             .then((httpResp) => httpResp.json())
             .then((response)=>{
                     if(response.response_code === 0){
@@ -125,7 +126,7 @@ export default function Pregunta() {
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
         <div class="text-center">
-            <div class="question border border-dark shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+            <div class="question shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     ${pregunta.question}
                 </h1>
@@ -133,22 +134,23 @@ export default function Pregunta() {
             <div>
                 <form class="p-4" data-js="PreguntaForm">
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value="${respuestas[0]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value="${respuestas[0]}">
                             ${respuestas[0]}
                         </button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value ="${respuestas[1]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value ="${respuestas[1]}">
                             ${respuestas[1]}
                         </button>
                     </div>
                     <div class="row content">
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value ="${respuestas[2]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value ="${respuestas[2]}">
                             ${respuestas[2]}
                         </button>
-                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col border border-dark shadow rounded" data-js="button" value ="${respuestas[3]}">
+                        <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value ="${respuestas[3]}">
                             ${respuestas[3]}
                         </button>
                     </div>
                 </form>
+                <button class="btn btn-primary btn-lg d-none" data-js="siguienteBtn">CONTINUAR</button>
             </div>
         </div>
         `)));
@@ -159,18 +161,29 @@ export default function Pregunta() {
 
     function submitRespuesta(event) {
         event.preventDefault();
-        const botones = _this.root.querySelectorAll('[data-js="button"]');
-        console.log(botones)
-
-        //set disable buttons
-        //set color button
-
+        const botones = Array.from(_this.root.querySelectorAll('[data-js="button"]'));
+        
+        botones.forEach(boton => {
+            boton.disabled = true;
+            if(boton.value === _respuestasCorrecta){
+                boton.classList.remove('btn-light');
+                boton.classList.add('btn-success')
+            }
+            if(boton.value === event.submitter.value){
+                if(boton.value != _respuestasCorrecta){
+                    boton.classList.remove('btn-light');
+                    boton.classList.add('btn-danger')
+                }
+            } 
+        })
+        
         const data = {
             pregunta: _pregunta,
             respuestaCorrecta: _respuestasCorrecta,
             respuesta: event.submitter.value
         };
 
+        //BOTON SIGUIENTE PREGUNTA
         fetch(`/api/preguntas`, {
             method: 'POST',
             header: {
@@ -186,7 +199,11 @@ export default function Pregunta() {
                             icon: 'success',
                             title: 'Respuesta correcta',
                             html: '+10 puntos',
-                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta'
+                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta',
+                            cancelButtonText:'cancelar',
+                            showCancelButton: true,
+                            showCloseButton: true,
+                            reverseButtons:true,
                         }).then(result => {
                             if (result.isConfirmed) {
                                 // Nueva pregunta / puntuacion
@@ -197,13 +214,23 @@ export default function Pregunta() {
                             icon: 'error',
                             title: 'Respuesta incorrecta',
                             html: '-5 puntos',
-                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta'
+                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta',
+                            cancelButtonText:'cancelar',
+                            showCancelButton: true,
+                            showCloseButton: true,
+                            reverseButtons:true,
                         }).then(result => {
                             if (result.isConfirmed) {
                                 // Nueva pregunta / puntuacion
                             }
                         });
                 }
+                const btnSiguiente = _this.root.querySelector('[data-js="siguienteBtn"]');
+                btnSiguiente.classList.remove('d-none');
+                btnSiguiente.onclick = () => {
+                    location.href = `/pregunta/${_dificultad}`;
+                }
+                
             } else {    
                 iziToast.error({message: response.error.error});
             }
