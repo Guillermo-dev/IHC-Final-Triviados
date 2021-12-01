@@ -106,7 +106,7 @@ export default function Pregunta() {
                     _this.setClassState("css-loaded");
                     proccesPregunta(response.results[0]);
                 } else {
-                    window.iziToast.error("Error interno");
+                    iziToast.error("Error interno");
                 }
             })
             .catch((err) => {

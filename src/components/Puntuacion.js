@@ -29,6 +29,9 @@ createStyle()._content(`
             min-height: 250px;
             min-width: auto;
         }
+        h1 {
+            font-size: 27px !important;
+        }
     }
 `);
 
@@ -83,7 +86,7 @@ export default function Puntuacion() {
                 }
             })
             .catch((reason) => {
-                window.iziToast.error({ message: reason.toString() });
+                iziToast.error({ message: reason.toString() });
             });
     }
 
@@ -92,10 +95,11 @@ export default function Puntuacion() {
             (_this.root = createElement("div")._class("pregunta")._html(`
             <div class="text-center">
                 <div class="score shadow rounded m-5 p-sm-2 bg-light row align-items-center">
-                    <h1 class="col">
-                        <p>Puntuacion: ${puntuacion}</p>
-                        <p>${mensaje}</p>
-                    </h1>
+                    <div class="col">
+                        <h1 class="display-1 fw-bold">Puntuacion</h1>
+                        <p class="display-3">${puntuacion}</p>
+                        <p class="display-3">${mensaje}</p>
+                    </div>
                 </div>
                 <div>
                     <button class="btn btn-light btn-lg m-3 py-3 fw-bold shadow rounded" data-js="button">
