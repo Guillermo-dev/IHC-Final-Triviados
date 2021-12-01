@@ -1,5 +1,5 @@
-import {createElement, createStyle} from "../global/js/utils.js"
-import {Component} from "./Component.js"
+import { createElement, createStyle } from "../global/js/utils.js";
+import { Component } from "./Component.js";
 import "../../node_modules/sweetalert2/dist/sweetalert2.min.js";
 import "../../node_modules/izitoast/dist/js/iziToast.min.js";
 
@@ -34,8 +34,8 @@ createStyle()._content(`
 
 export default function Puntuacion() {
     const _this = this;
-    this.name = 'Puntuacion';
-    this.root = createElement('div')._class('Puntuacion')._html(`
+    this.name = "Puntuacion";
+    this.root = createElement("div")._class("Puntuacion")._html(`
     <!--Loading-->
     <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
         <div class="text-center">
@@ -61,28 +61,34 @@ export default function Puntuacion() {
     `);
     const _content = _this.root.querySelector('[data-js="content"]');
 
-    function _constructor(){
+    function _constructor() {
         fetchPuntuacion();
     }
 
-    function fetchPuntuacion(){
+    function fetchPuntuacion() {
         _this.setClassState("css-loading");
         fetch(`/api/puntuaciones`)
-        .then(httpResp => httpResp.json())
-        .then(response => {
-            if (response.status === 'success') {
-                _this.setClassState("css-loaded");
-                processPuntuacion(response.data.puntuacion, response.data.mensaje)
-            } else {
-                window.iziToast.error({ message: response.error });
-            }
-        })
-        .catch(reason => {
-            window.iziToast.error({ message: reason.toString() });
-        });
+            .then((httpResp) => httpResp.json())
+            .then((response) => {
+                if (response.status === "success") {
+                    const { puntuacion, mensaje } = response.data;
+                    _this.setClassState("css-loaded");
+                    if (response.data.cheating != undefined) {
+                        juegoTerminadoTrampa();
+                    } else {
+                        processPuntuacion(puntuacion, mensaje);
+                    }
+                } else {
+                    window.iziToast.error({ message: response.error });
+                    location.href = "/";
+                }
+            })
+            .catch((reason) => {
+                window.iziToast.error({ message: reason.toString() });
+            });
     }
 
-    function processPuntuacion(puntuacion, mensaje){
+    function processPuntuacion(puntuacion, mensaje) {
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
             <div class="text-center">
@@ -93,12 +99,25 @@ export default function Puntuacion() {
                     </h1>
                 </div>
                 <div>
-                    <button class="btn btn-light btn-lg m-3 py-3 fw-bold shadow rounded">
+                    <button class="btn btn-light btn-lg m-3 py-3 fw-bold shadow rounded" data-js="button">
                         Volver a jugar
                     </button>
                 </div>
             </div>
-        `)));
+        `))
+        );
+        const volverAJugarBtn = _this.root.querySelector('[data-js="button"]');
+        volverAJugarBtn.onclick = () => {location.href = "/";}
+    }
+
+    function juegoTerminadoTrampa() {
+        Sweetalert2.fire({
+            icon: "warning",
+            title: "No hagas trampas",
+            confirmButtonText: "Volver a empezar",
+        }).then(() => {
+            location.href = "/";
+        });
     }
 
     _constructor();

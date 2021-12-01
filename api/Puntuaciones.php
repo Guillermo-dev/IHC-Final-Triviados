@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace api;
 
@@ -8,17 +8,17 @@ use Exception;
 
 abstract class Puntuaciones {
 
-    public static function getPuntuacion(){
-        if(!isset($_SESSION['partida']))
+    public static function getPuntuacion() {
+        if (!isset($_SESSION['partida']))
             throw new Exception('No se pudo encontrar la partida');
-        else{
+        else {
             $mensaje = '';
             $puntuacion = $_SESSION['partida']['puntuacion'];
-            if($puntuacion < 0){
+            if ($puntuacion < 0) {
                 $mensaje = 'Mas suerte la proxima vez';
-            }else{
+            } else {
                 $puntuacionPerfecta = 0;
-                switch($_SESSION['dificultad']){
+                switch ($_SESSION['dificultad']) {
                     case 'easy':
                         $puntuacionPerfecta = 100;
                         break;
@@ -31,15 +31,20 @@ abstract class Puntuaciones {
                 }
                 if ($puntuacion == $puntuacionPerfecta)
                     $mensaje = 'Puntuacion perfecta';
-                else if ($puntuacion >= $puntuacionPerfecta/2)
+                else if ($puntuacion >= $puntuacionPerfecta / 2)
                     $mensaje = 'Media alta';
-                else if ($puntuacion <= $puntuacionPerfecta/2)
+                else if ($puntuacion <= $puntuacionPerfecta / 2)
                     $mensaje = 'Media baja';
             }
-
         }
-            Response::getResponse()->appendData('puntuacion', $puntuacion);
-            Response::getResponse()->appendData('mensaje', $mensaje);
+        // "Anti-cheats" 
+        if ($_SESSION['cargas'] > $_SESSION['partida']['cantidadPreguntas']) {
+            $_SESSION['partida']['cheating'] = true;
+        }
+        if (isset($_SESSION['partida']['cheating']))
+            Response::getResponse()->appendData('cheating', true);
 
+        Response::getResponse()->appendData('puntuacion', $puntuacion);
+        Response::getResponse()->appendData('mensaje', $mensaje);
     }
 }

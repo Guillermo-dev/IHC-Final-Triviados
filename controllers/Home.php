@@ -2,6 +2,8 @@
 
 namespace controllers;
 
+use api\Preguntas;
+
 abstract class Home {
 
     public static function index(): void {
@@ -15,6 +17,10 @@ abstract class Home {
         } else if ($_SESSION['dificultad'] != 'easy') {
             header('Location: /');
         }
+        if (!isset($_SESSION['cargas'])) {
+            $_SESSION['cargas'] = 0;
+        }
+        $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');
     }
 
@@ -24,6 +30,10 @@ abstract class Home {
         } else if ($_SESSION['dificultad'] != 'medium') {
             header('Location: /');
         }
+        if (!isset($_SESSION['cargas'])) {
+            $_SESSION['cargas'] = 0;
+        }
+        $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');
     }
 
@@ -33,6 +43,10 @@ abstract class Home {
         } else if ($_SESSION['dificultad'] != 'hard') {
             header('Location: /');
         }
+        if (!isset($_SESSION['cargas'])) {
+            $_SESSION['cargas'] = 0;
+        }
+        $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');
     }
 
