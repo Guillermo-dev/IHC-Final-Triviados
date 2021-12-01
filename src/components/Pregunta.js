@@ -183,7 +183,6 @@ export default function Pregunta() {
             respuesta: event.submitter.value
         };
 
-        //BOTON SIGUIENTE PREGUNTA
         fetch(`/api/preguntas`, {
             method: 'POST',
             header: {
@@ -194,48 +193,75 @@ export default function Pregunta() {
             if (response.status === 'success') {
                 const cantPreg = response.data.cantidadPreguntas;
                 const maxPreg = response.data.maximoPreguntas;
-                if(_respuestasCorrecta === event.submitter.value){
-                    Sweetalert2.fire({
-                            icon: 'success',
-                            title: 'Respuesta correcta',
-                            html: '+10 puntos',
-                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta',
-                            cancelButtonText:'cancelar',
-                            showCancelButton: true,
-                            showCloseButton: true,
-                            reverseButtons:true,
-                        }).then(result => {
-                            if (result.isConfirmed) {
-                                // Nueva pregunta / puntuacion
-                            }
-                        });
+                if(cantPreg > maxPreg){
+                    juegoTerminado();
                 }else{
-                    Sweetalert2.fire({
-                            icon: 'error',
-                            title: 'Respuesta incorrecta',
-                            html: '-5 puntos',
-                            confirmButtonText: cantPreg === maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta',
-                            cancelButtonText:'cancelar',
-                            showCancelButton: true,
-                            showCloseButton: true,
-                            reverseButtons:true,
-                        }).then(result => {
-                            if (result.isConfirmed) {
-                                // Nueva pregunta / puntuacion
-                            }
-                        });
+                    if(_respuestasCorrecta === event.submitter.value){
+                        respuestaCorrecta(cantPreg, maxPreg);
+                    }else{
+                        respuestaInorrecta(cantPreg, maxPreg);
+                    }
                 }
                 const btnSiguiente = _this.root.querySelector('[data-js="siguienteBtn"]');
                 btnSiguiente.classList.remove('d-none');
                 btnSiguiente.onclick = () => {
-                    location.href = `/pregunta/${_dificultad}`;
+                    location.href =  cantPreg >= maxPreg ? '/puntuacion' : `/pregunta/${_dificultad}`;
                 }
-                
             } else {    
                 iziToast.error({message: response.error.error});
             }
         }).catch(reason => {
             iziToast.error({message: reason.toString()});
+        });
+    }
+
+    function juegoTerminado(){
+        Sweetalert2.fire({
+            icon: 'warning',
+            title: 'Juego terminado',
+            confirmButtonText: 'Ver puntuacion',
+            cancelButtonText:'cancelar',
+            showCancelButton: true,
+            showCloseButton: true,
+            reverseButtons:true,
+        }).then(result => {
+            if (result.isConfirmed) {
+                location.href =  '/puntuacion';
+            }
+        });
+    }
+
+    function respuestaCorrecta(cantPreg, maxPreg){
+        Sweetalert2.fire({
+            icon: 'success',
+            title: 'Respuesta correcta',
+            html: '+10 puntos',
+            confirmButtonText: cantPreg >= maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta',
+            cancelButtonText:'cancelar',
+            showCancelButton: true,
+            showCloseButton: true,
+            reverseButtons:true,
+        }).then(result => {
+            if (result.isConfirmed) {
+                location.href =  cantPreg >= maxPreg ? '/puntuacion' : `/pregunta/${_dificultad}`;
+            }
+        });
+    }
+
+    function respuestaInorrecta(cantPreg, maxPreg){
+        Sweetalert2.fire({
+            icon: 'error',
+            title: 'Respuesta incorrecta',
+            html: '-5 puntos',
+            confirmButtonText: cantPreg >= maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta',
+            cancelButtonText:'cancelar',
+            showCancelButton: true,
+            showCloseButton: true,
+            reverseButtons:true,
+        }).then(result => {
+            if (result.isConfirmed) {
+                location.href =  cantPreg >= maxPreg ? '/puntuacion' : `/pregunta/${_dificultad}`;
+            }
         });
     }
     _constructor();
