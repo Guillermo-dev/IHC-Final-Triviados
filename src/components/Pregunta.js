@@ -4,39 +4,38 @@ import "../../node_modules/sweetalert2/dist/sweetalert2.min.js";
 import "../../node_modules/izitoast/dist/js/iziToast.min.js";
 
 createStyle()._content(`
-.Pregunta:not(.css-loaded) .css-loaded,
-.Pregunta:not(.css-loading) .css-loading{
-    display: none !important;
-}
-.Pregunta{
-    overflow: hidden;
-}
+    .Pregunta:not(.css-loaded) .css-loaded,
+    .Pregunta:not(.css-loading) .css-loading{
+        display: none !important;
+    }
+    .Pregunta{
+        overflow: hidden;
+    }
 
-.question{
-    min-height: 450px;
-    min-width: 700px;
-}
-
-@media(max-width: 1400px) {
     .question{
-        min-height: 300px;
-        min-width: 500px;
+        min-height: 450px;
+        min-width: 700px;
     }
-}
 
-@media (max-width: 768px) {
-    .question{
-        min-height: 250px;
-        min-width: auto;
+    @media(max-width: 1400px) {
+        .question{
+            min-height: 300px;
+            min-width: 500px;
+        }
     }
-    h1 {
-        font-size : 20px
-    }
-    button {
-        font-size : 16px !important;
-    }
-}
 
+    @media (max-width: 768px) {
+        .question{
+            min-height: 250px;
+            min-width: auto;
+        }
+        h1 {
+            font-size : 20px
+        }
+        button {
+            font-size : 16px !important;
+        }
+    }
 `);
 
 export default function Pregunta() {
