@@ -14,3 +14,18 @@ html, body {
     background-repeat: no-repeat; 
     background-size: cover;
 }
+
+/* Scrolll */
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #6250C0;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #3C4CC5;
+    border-radius: 10px;
+    border: 1px solid #6250C0;
+}
