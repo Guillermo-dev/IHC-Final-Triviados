@@ -26,14 +26,20 @@ createStyle()._content(`
 
     @media (max-width: 768px) {
         .question{
-            min-height: 250px;
-            min-width: auto;
+            min-height: 200px;
+            min-width: 250px;
         }
         h1 {
             font-size : 20px
         }
         button {
             font-size : 16px !important;
+        }
+        .botonesContainer {
+            position: absolute;
+            left: 0;
+            bottom: 5%;
+            right: 0;
         }
     }
 `);
@@ -50,7 +56,7 @@ export default function Pregunta() {
                     <span class="spinner-border"></span>
                 </h1>
             </div>
-            <div>
+            <div class="botonesContainer">
                 <form class="p-4">
                     <div class="row content">
                         <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" disabled>
@@ -134,7 +140,7 @@ export default function Pregunta() {
                     ${pregunta.question}
                 </h1>
             </div>
-            <div>
+            <div class="botonesContainer">
                 <form class="p-4" data-js="PreguntaForm">
                     <div class="row content">
                         <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value="${respuestas[0]}">
@@ -153,7 +159,7 @@ export default function Pregunta() {
                         </button>
                     </div>
                 </form>
-                <button class="btn btn-primary btn-lg d-none" data-js="siguienteBtn">CONTINUAR</button>
+                <button class="btn btn-primary btn-lg d-none" data-js="siguienteBtn"></button>
             </div>
         </div>
         `))
@@ -226,7 +232,7 @@ export default function Pregunta() {
                     _juegoTerminadoError()
                 }
             })
-            .catch((reason) => {
+            .catch((e) => {
                 _juegoTerminadoError()
             });
     }
@@ -314,6 +320,7 @@ export default function Pregunta() {
         const btnSiguiente = _this.root.querySelector(
             '[data-js="siguienteBtn"]'
         );
+        btnSiguiente.textContent =  _cantPreg >= _maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta';
         btnSiguiente.classList.remove("d-none");
         btnSiguiente.onclick = () => {
             location.href =

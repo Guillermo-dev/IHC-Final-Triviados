@@ -13,6 +13,13 @@ createStyle()._content(`
         overflow: hidden;
     }
 
+    .botonContainer {
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        width: 100vw;
+    }
+
     .score{
         min-height: 450px;
         min-width: 700px;
@@ -110,7 +117,7 @@ export default function Puntuacion() {
                         <p class="display-4">${mensaje}</p>
                     </div>
                 </div>
-                <div>
+                <div class ="botonContainer">
                     <button class="btn btn-light btn-lg m-3 py-3 fw-bold shadow rounded" data-js="button">
                         Volver a jugar
                     </button>
