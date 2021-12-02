@@ -106,16 +106,15 @@ export default function Pregunta() {
         fetch(`/api/preguntas/${_dificultad}`)
             .then((httpResp) => httpResp.json())
             .then((response) => {
-                console.log(response)
                 if (response.status == 'success') {
                     _this.setClassState("css-loaded");
                     _proccesPregunta(response.data.pregunta);
                 } else {
-                    iziToast.error("Error interno");
+                    _juegoTerminadoError();
                 }
             })
             .catch((e) => {
-                //_juegoTerminadoError()
+                _juegoTerminadoError();
             });
     }
 

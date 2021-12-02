@@ -10,8 +10,6 @@ if (isset($router)) {
 
     $router->get('/preguntas/(\w+)','api\Preguntas@getPregunta');
 
-    $router->get('/preguntas/easy','api\Preguntas@getPregunta');
-
     $router->post('/preguntas', 'api\Preguntas@saveRespuesta');
 
     $router->get('/puntuaciones', 'api\Puntuaciones@getPuntuacion');

@@ -85,21 +85,29 @@ class Pregunta  implements JsonSerializable {
         if(!$result) 
             throw new Exception ('Error en la carga de pregunta');
         
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
+        $preguntas = [];
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {;
+                $pregunta = new Pregunta();
+                $pregunta->setId($row['id']);
+                $pregunta->setDifficulty($row['difficulty']);
+                $pregunta->setQuestion($row['question']);
+                $pregunta->setCorrect_answer($row['correct_answer']);
+                $pregunta->addIncorrect_answers($row['incorrect_answer1']);
+                $pregunta->addIncorrect_answers($row['incorrect_answer2']);
+                $pregunta->addIncorrect_answers($row['incorrect_answer3']);
+                array_push($preguntas, $pregunta);
+            }
+            $i = rand(0, count($preguntas)-1); 
 
-            $pregunta = new Pregunta();
-            $pregunta->setId(1);
-            $pregunta->setDifficulty('easy');
-            $pregunta->setQuestion('Esta es la pregunta');
-            $pregunta->setCorrect_answer('Correcto');
-            $pregunta->addIncorrect_answers('Incorrecto 1');
-            $pregunta->addIncorrect_answers('Incorrecto 2');
-            $pregunta->addIncorrect_answers('Incorrecto 3');
-
+            if(isset($_SESSION['partida'])){
+                while(in_array($preguntas[$i]->getQuestion(), $_SESSION['partida']['preguntas'])){
+                    $i = rand(0, count($preguntas)-1);
+                }
+            }
         } else 
             throw new Exception ('No existen preguntas disponibles');
         
-        return $pregunta;
+        return $preguntas[$i];
     }
 }

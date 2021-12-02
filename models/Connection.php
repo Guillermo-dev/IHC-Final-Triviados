@@ -13,7 +13,7 @@ abstract class Connection {
     public static function getConnection(){
         if(self::$conn == null){
             try {
-                // localhost:3307;laboratorio;root;;
+                // localhost:3306;root;;triviadosDB;
                 $config = explode(';', file_get_contents('config/db-config.conf'));
                 self::$conn = new Mysqli($config[0], $config[1], $config[2], $config[3]);
                 
