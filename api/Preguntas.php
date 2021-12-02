@@ -9,8 +9,8 @@ use Exception;
 
 abstract class Preguntas {
 
-    public static function getPregunta(atring $difficulty):void {
-        Response::getResponse()->appendData('results', Pregunta::getPregunta($difficulty));
+    public static function getPregunta(string $difficulty): void {
+        Response::getResponse()->appendData('pregunta', Pregunta::getPregunta($difficulty));
     }
 
     public static function saveRespuesta(): void {
@@ -46,7 +46,8 @@ abstract class Preguntas {
                     $_SESSION['partida']['puntuacion'] -= 5;
                 }
             }
-        }
+        }else
+            $_SESSION['cargas'] -= 1;
         $maximoPreguntas = $_SESSION['partida']['maximoPreguntas'];
         $cantidadPreguntas = $_SESSION['partida']['cantidadPreguntas'];
 

@@ -76,12 +76,15 @@ class Pregunta  implements JsonSerializable {
     /**************************** Metodos BD ****************************/
 
     public static function getPregunta(string $difficulty): Pregunta{
-        $conn = Connection::getCopnnection();
+        $conn = Connection::getConnection();
 
-        $query = sprintf("SELECT id, difficulty, question, correct_answer, incorrect_answer1, incorrect_answer2. incorrect_answer3 
-            FROM preguntas WHERE dificulty ='%s'", $difficulty);
+        $query = sprintf("SELECT id, difficulty, question, correct_answer, incorrect_answer1, incorrect_answer2, incorrect_answer3 
+            FROM preguntas WHERE difficulty ='%s'", $difficulty);
 
         $result = mysqli_query($conn, $query);
+        if(!$result) 
+            throw new Exception ('Error en la carga de pregunta');
+        
         if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
 

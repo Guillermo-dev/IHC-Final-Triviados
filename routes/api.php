@@ -8,7 +8,9 @@ if (isset($router)) {
         Response::getResponse()->appendData('message', 'Welcome!');
     });
 
-    $pouter->get('/preguntas/(\w+)','api\Preguntas@getPregunta');
+    $router->get('/preguntas/(\w+)','api\Preguntas@getPregunta');
+
+    $router->get('/preguntas/easy','api\Preguntas@getPregunta');
 
     $router->post('/preguntas', 'api\Preguntas@saveRespuesta');
 

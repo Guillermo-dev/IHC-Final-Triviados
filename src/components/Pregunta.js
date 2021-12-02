@@ -103,20 +103,19 @@ export default function Pregunta() {
         const url = window.location.pathname;
         _dificultad = url.substring(url.lastIndexOf("/") + 1);
 
-        fetch(
-            `https://opentdb.com/api.php?amount=1&difficulty=${_dificultad}&type=multiple`
-        )
+        fetch(`/api/preguntas/${_dificultad}`)
             .then((httpResp) => httpResp.json())
             .then((response) => {
-                if (response.response_code === 0) {
+                console.log(response)
+                if (response.status == 'success') {
                     _this.setClassState("css-loaded");
-                    _proccesPregunta(response.results[0]);
+                    _proccesPregunta(response.data.pregunta);
                 } else {
                     iziToast.error("Error interno");
                 }
             })
-            .catch((err) => {
-                console.log(err);
+            .catch((e) => {
+                //_juegoTerminadoError()
             });
     }
 
