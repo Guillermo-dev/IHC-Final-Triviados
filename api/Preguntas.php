@@ -4,11 +4,16 @@ namespace api;
 
 use api\util\Response;
 use api\util\Request;
+use models\Pregunta;
 use Exception;
 
 abstract class Preguntas {
 
-    public static function saveResuesta(): void {
+    public static function getPregunta(atring $difficulty):void {
+        Response::getResponse()->appendData('results', Pregunta::getPregunta($difficulty));
+    }
+
+    public static function saveRespuesta(): void {
         $data = Request::getBodyAsJson();
 
         if (!isset($_SESSION['dificultad']))
