@@ -88,14 +88,19 @@ export default function Puntuacion() {
             .then((response) => {
                 if (response.status === "success") {
                     _this.setClassState("css-loaded");
-                    const { puntuacion, puntuacionPerfecta, mensaje } = response.data;
+                    const { puntuacion, puntuacionPerfecta, mensaje } =
+                        response.data;
                     if (response.data.cheating != undefined) {
                         _juegoTerminadoTrampa();
                     } else {
                         _confetti();
                         puntuacionAudio.play();
                         puntuacionAudio.volume = 0.1;
-                        _processPuntuacion(puntuacion, puntuacionPerfecta, mensaje);
+                        _processPuntuacion(
+                            puntuacion,
+                            puntuacionPerfecta,
+                            mensaje
+                        );
                     }
                 } else {
                     _errorInernoAlert();

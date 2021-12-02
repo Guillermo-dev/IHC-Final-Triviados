@@ -46,7 +46,7 @@ abstract class Preguntas {
                     $_SESSION['partida']['puntuacion'] -= 5;
                 }
             }
-        }else
+        } else
             $_SESSION['cargas'] -= 1;
         $maximoPreguntas = $_SESSION['partida']['maximoPreguntas'];
         $cantidadPreguntas = $_SESSION['partida']['cantidadPreguntas'];

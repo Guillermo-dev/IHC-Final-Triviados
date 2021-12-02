@@ -8,7 +8,7 @@ if (isset($router)) {
         Response::getResponse()->appendData('message', 'Welcome!');
     });
 
-    $router->get('/preguntas/(\w+)','api\Preguntas@getPregunta');
+    $router->get('/preguntas/(\w+)', 'api\Preguntas@getPregunta');
 
     $router->post('/preguntas', 'api\Preguntas@saveRespuesta');
 
@@ -20,4 +20,3 @@ if (isset($router)) {
         Response::getResponse()->setData(null);
     });
 }
-

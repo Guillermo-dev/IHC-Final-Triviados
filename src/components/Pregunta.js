@@ -106,7 +106,7 @@ export default function Pregunta() {
         fetch(`/api/preguntas/${_dificultad}`)
             .then((httpResp) => httpResp.json())
             .then((response) => {
-                if (response.status == 'success') {
+                if (response.status == "success") {
                     _this.setClassState("css-loaded");
                     _proccesPregunta(response.data.pregunta);
                 } else {
@@ -187,7 +187,7 @@ export default function Pregunta() {
                     boton.classList.remove("btn-light");
                     boton.classList.add("btn-danger");
                     incorrectAudio.play();
-                }else{
+                } else {
                     correctAudio.play();
                 }
             }
@@ -199,14 +199,13 @@ export default function Pregunta() {
             respuesta: event.submitter.value,
         };
 
-        
-
         fetch(`/api/preguntas`, {
             method: "POST",
             header: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),})
+            body: JSON.stringify(data),
+        })
             .then((httpResp) => httpResp.json())
             .then((response) => {
                 if (response.status === "success") {
@@ -227,11 +226,11 @@ export default function Pregunta() {
                     }
                     _showBtnSiguiente();
                 } else {
-                    _juegoTerminadoError()
+                    _juegoTerminadoError();
                 }
             })
             .catch((e) => {
-                _juegoTerminadoError()
+                _juegoTerminadoError();
             });
     }
 
@@ -314,11 +313,12 @@ export default function Pregunta() {
         });
     }
 
-    function _showBtnSiguiente(){
+    function _showBtnSiguiente() {
         const btnSiguiente = _this.root.querySelector(
             '[data-js="siguienteBtn"]'
         );
-        btnSiguiente.textContent =  _cantPreg >= _maxPreg ? 'Ver puntuacion' : 'Siguiente pregunta';
+        btnSiguiente.textContent =
+            _cantPreg >= _maxPreg ? "Ver puntuacion" : "Siguiente pregunta";
         btnSiguiente.classList.remove("d-none");
         btnSiguiente.onclick = () => {
             location.href =
