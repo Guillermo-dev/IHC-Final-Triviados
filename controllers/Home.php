@@ -20,7 +20,7 @@ abstract class Home {
 
     public static function preguntaEasy(): void {
         if (!isset($_SESSION['partida'])) 
-            self::iniciarPartida('easy', 10);
+            self::iniciarPartida('easy', 2);
         else if ($_SESSION['partida']['dificultad'] != 'easy') 
             header('Location: /');
         $_SESSION['cargas'] += 1;

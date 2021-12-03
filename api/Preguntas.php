@@ -14,6 +14,8 @@ abstract class Preguntas {
         if ($_SESSION['cargas'] > $_SESSION['partida']['cantidadPreguntas']) {
             $_SESSION['cargas'] = $_SESSION['partida']['cantidadPreguntas'];
             Response::getResponse()->appendData('pregunta', end($_SESSION['partida']['preguntas']));
+        }else if ($_SESSION['partida']['cantidadPreguntas'] == $_SESSION['partida']['maximoPreguntas']){
+            Response::getResponse()->appendData('finalizado', true);
         }else{
             $pregunta = Pregunta::getPregunta($difficulty);
             while (in_array($pregunta, $_SESSION['partida']['preguntas'])) {

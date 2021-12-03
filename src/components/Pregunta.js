@@ -106,9 +106,14 @@ export default function Pregunta() {
             .then((httpResp) => httpResp.json())
             .then((response) => {
                 if (response.status == "success") {
-                    _this.setClassState("css-loaded");
-                    _pregunta = response.data.pregunta
-                    _proccesPregunta();
+                    if (response.data.finalizado != undefined){
+                        location.href = '/puntuacion';
+                    }else{
+                        _this.setClassState("css-loaded");
+                        _pregunta = response.data.pregunta
+                        _proccesPregunta()
+                    }
+                    ;
                 } else {
                     _juegoTerminadoError();
                 }
