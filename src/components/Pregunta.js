@@ -175,10 +175,11 @@ export default function Pregunta() {
         const botones = Array.from(
             _this.root.querySelectorAll('[data-js="button"]')
         );
-
+    
         const correctAudio = new Audio("/src/global/media/correcto.mp3");
         const incorrectAudio = new Audio("/src/global/media/incorrecto.mp3");
         botones.forEach((boton) => {
+            console.log(boton.innerText );
             boton.disabled = true;
             if (boton.value === _respuestasCorrecta) {
                 boton.classList.remove("btn-light");

@@ -20,7 +20,7 @@ abstract class Preguntas {
             $_SESSION['partida']['preguntas'] = array();
             switch ($_SESSION['dificultad']) {
                 case 'easy':
-                    $_SESSION['partida']['maximoPreguntas'] = 2;
+                    $_SESSION['partida']['maximoPreguntas'] = 20;
                     break;
                 case 'medium':
                     $_SESSION['partida']['maximoPreguntas'] = 15;
@@ -41,6 +41,8 @@ abstract class Preguntas {
                     $_SESSION['partida']['puntuacion'] -= 5;
                 }
             }
+        }else{
+            $_SESSION['cargas'] -= 1;
         }
         $maximoPreguntas = $_SESSION['partida']['maximoPreguntas'];
         $cantidadPreguntas = $_SESSION['partida']['cantidadPreguntas'];
