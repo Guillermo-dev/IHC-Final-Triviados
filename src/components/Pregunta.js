@@ -12,20 +12,20 @@ createStyle()._content(`
         overflow: hidden;
     }
 
-    .question{
+    .preguntaContainer{
         min-height: 450px;
         min-width: 700px;
     }
 
     @media(max-width: 1400px) {
-        .question{
+        .preguntaContainer{
             min-height: 300px;
             min-width: 500px;
         }
     }
 
     @media (max-width: 768px) {
-        .question{
+        .preguntaContainer{
             min-height: 200px;
             min-width: 250px;
         }
@@ -51,7 +51,7 @@ export default function Pregunta() {
     <!--Loading-->
     <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
         <div class="text-center">
-            <div class="question shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+            <div class="preguntaContainer shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     <span class="spinner-border"></span>
                 </h1>
@@ -130,7 +130,7 @@ export default function Pregunta() {
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
         <div class="text-center">
-            <div class="question shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+            <div class="preguntaContainer shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     ${_pregunta.question}
                 </h1>
@@ -210,7 +210,7 @@ export default function Pregunta() {
                     _maxPreg = response.data.maximoPreguntas;
 
                     if (_cantPreg > _maxPreg) {
-                        _juegoTerminado();
+                        _verPuntuacion();
                     } else {
                         if (respuestasCorrecta === event.submitter.value) {
                             _respuestaCorrecta();
@@ -230,7 +230,7 @@ export default function Pregunta() {
             });
     }
 
-    function _juegoTerminado() {
+    function _verPuntuacion() {
         Sweetalert2.fire({
             icon: "info",
             title: "Juego terminado",
@@ -313,7 +313,6 @@ export default function Pregunta() {
                     : `/pregunta/${_dificultad}`;
         };
     }
-
     _constructor();
 }
 Object.setPrototypeOf(Pregunta.prototype, new Component());
