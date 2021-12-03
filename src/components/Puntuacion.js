@@ -21,6 +21,7 @@ createStyle()._content(`
     }
 
     .score{
+        margin-top: 5rem!important;
         min-height: 450px;
         min-width: 700px;
     }
@@ -99,7 +100,7 @@ export default function Puntuacion() {
                             mensaje
                         );
                 } else {
-                    _errorInernoAlert();
+                    _juegoTerminadoError();
                 }
             })
             .catch((reason) => {
@@ -132,14 +133,14 @@ export default function Puntuacion() {
         };
     }
 
-    function _errorInernoAlert() {
+    function _juegoTerminadoError() {
         Sweetalert2.fire({
             icon: "question",
             title: "Error inesperado",
             html: "Ocurrio un error inesperado, intenta comenzar otra partida",
             confirmButtonText: "Volver a al menu",
         }).then(() => {
-            location.href = "/";
+            location.href = "/menu";
         });
     }
 

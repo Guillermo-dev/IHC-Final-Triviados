@@ -3,6 +3,7 @@
 if(isset($router)) {
     // Si la pages existe la redirige
     $router->get('/', 'controllers\Home@index');
+    $router->get('/menu', 'controllers\Home@indexClear');
     $router->get('/pregunta/easy', 'controllers\Home@preguntaEasy');
     $router->get('/pregunta/medium', 'controllers\Home@preguntaMedium');
     $router->get('/pregunta/hard', 'controllers\Home@preguntaHard');

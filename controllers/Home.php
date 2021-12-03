@@ -4,11 +4,6 @@ namespace controllers;
 
 abstract class Home {
 
-    public static function index(): void {
-        session_destroy();
-        echo file_get_contents('src/pages/home/home.html');
-    }
-
     public static function iniciarPartida(string $dificultad, int $cantPreguntas): void {
         $_SESSION['partida']['dificultad'] = $dificultad;
         $_SESSION['partida']['maximoPreguntas'] = $cantPreguntas + 1;
@@ -18,17 +13,46 @@ abstract class Home {
         $_SESSION['cargas'] = 0;
     }
 
+    public static function index(): void {
+        if (isset($_SESSION['partida'])) {
+            if ($_SESSION['partida']['maximoPreguntas'] != $_SESSION['partida']['cantidadPreguntas']) {
+                switch ($_SESSION['partida']['dificultad']) {
+                    case 'easy':
+                        header('Location: /pregunta/easy');
+                        break;
+                    case 'medium':
+                        header('Location: /pregunta/medium');
+                        break;
+                    case 'hard':
+                        header('Location: /pregunta/hard');
+                        break;
+                }
+            } else {
+                session_destroy();
+                echo file_get_contents('src/pages/home/home.html');
+            }
+        } else {
+            session_destroy();
+            echo file_get_contents('src/pages/home/home.html');
+        }
+    }
+
+    public static function indexClear(): void {
+        session_destroy();
+        echo file_get_contents('src/pages/home/home.html');
+    }
+
     public static function preguntaEasy(): void {
-        if (!isset($_SESSION['partida'])) 
+        if (!isset($_SESSION['partida']))
             self::iniciarPartida('easy', 2);
-        else if ($_SESSION['partida']['dificultad'] != 'easy') 
+        else if ($_SESSION['partida']['dificultad'] != 'easy')
             header('Location: /');
         $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');
     }
 
     public static function preguntaMedium(): void {
-        if (!isset($_SESSION['partida'])) 
+        if (!isset($_SESSION['partida']))
             self::iniciarPartida('medium', 15);
         else if ($_SESSION['partida']['dificultad'] != 'medium')
             header('Location: /');
@@ -37,9 +61,9 @@ abstract class Home {
     }
 
     public static function preguntaHard(): void {
-        if (!isset($_SESSION['partida'])) 
+        if (!isset($_SESSION['partida']))
             self::iniciarPartida('hard', 20);
-         else if ($_SESSION['partida']['dificultad'] != 'hard') 
+        else if ($_SESSION['partida']['dificultad'] != 'hard')
             header('Location: /');
         $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');

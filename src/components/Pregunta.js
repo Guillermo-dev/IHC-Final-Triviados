@@ -3,6 +3,7 @@ import { Component } from "./Component.js";
 import "../../node_modules/sweetalert2/dist/sweetalert2.min.js";
 import "../../node_modules/izitoast/dist/js/iziToast.min.js";
 
+
 createStyle()._content(`
     .Pregunta:not(.css-loaded) .css-loaded,
     .Pregunta:not(.css-loading) .css-loading{
@@ -15,6 +16,13 @@ createStyle()._content(`
     .preguntaContainer{
         min-height: 450px;
         min-width: 700px;
+        margin-top: 5rem!important;
+    }
+
+    .terminarPartidaBtn {
+        position:absolute;
+        top:10px;
+        left:10px;
     }
 
     @media(max-width: 1400px) {
@@ -48,6 +56,9 @@ export default function Pregunta() {
     const _this = this;
     this.name = "Pregunta";
     this.root = createElement("div")._class("Pregunta")._html(`
+    <button class="terminarPartidaBtn btn btn-danger bi bi-power" data-js="terminarPartidaBtn">
+        Termiar partida 
+    </button>
     <!--Loading-->
     <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
         <div class="text-center">
@@ -92,6 +103,10 @@ export default function Pregunta() {
     let _cantPreg = 0;
     let _maxPreg = 0;
 
+    const _terminarPartidaBtn = _this.root.querySelector(
+        '[data-js="terminarPartidaBtn"]');
+    _terminarPartidaBtn.onclick = _terminarPartida;
+
     function _constructor() {
         _fetchPregunta();
     }
@@ -134,7 +149,7 @@ export default function Pregunta() {
 
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
-        <div class="text-center">
+        <div class="text-center mt-5">
             <div class="preguntaContainer shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     ${_pregunta.question}
@@ -164,10 +179,9 @@ export default function Pregunta() {
         </div>
         `))
         );
-        const preguntaForm = _this.root.querySelector(
-            '[data-js="PreguntaForm"]'
-        );
-        preguntaForm.onsubmit = _submitRespuesta;
+        const _preguntaForm = _this.root.querySelector(
+            '[data-js="PreguntaForm"]');
+        _preguntaForm.onsubmit = _submitRespuesta;
     }
 
     function _submitRespuesta(event) {
@@ -230,7 +244,6 @@ export default function Pregunta() {
                 }
             })
             .catch((e) => {
-                console.log(e)
                 _juegoTerminadoError();
             });
     }
@@ -293,14 +306,31 @@ export default function Pregunta() {
         });
     }
 
-    function _juegoTerminadoError() {
+    function _terminarPartida(){
         Sweetalert2.fire({
             icon: "question",
+            title: "¿Terminar partida?",
+            html: "¿Seguro que quiere terminar la partida? Perdera todo el progreso",
+            confirmButtonText: "Seguro!",
+            cancelButtonText: "cancelar",
+            showCancelButton: true,
+            showCloseButton: true,
+            reverseButtons: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = "/menu";
+            }
+        });
+    } 
+
+    function _juegoTerminadoError() {
+        Sweetalert2.fire({
+            icon: "warning",
             title: "Error inesperado",
             html: "Ocurrio un error inesperado, intenta comenzar otra partida",
             confirmButtonText: "Volver a intentar",
         }).then(() => {
-            location.href = "/";
+            location.href = "/menu";
         });
     }
 
