@@ -87,9 +87,8 @@ export default function Pregunta() {
     </div>
     `);
     const _content = _this.root.querySelector('[data-js="content"]');
+    let _pregunta = {};
     let _dificultad = "";
-    let _pregunta = "";
-    let _respuestasCorrecta = "";
     let _cantPreg = 0;
     let _maxPreg = 0;
 
@@ -108,7 +107,8 @@ export default function Pregunta() {
             .then((response) => {
                 if (response.status == "success") {
                     _this.setClassState("css-loaded");
-                    _proccesPregunta(response.data.pregunta);
+                    _pregunta = response.data.pregunta
+                    _proccesPregunta();
                 } else {
                     _juegoTerminadoError();
                 }
@@ -118,13 +118,10 @@ export default function Pregunta() {
             });
     }
 
-    function _proccesPregunta(pregunta) {
-        _pregunta = pregunta.question;
-        _respuestasCorrecta = pregunta.correct_answer;
-
+    function _proccesPregunta() {
         // Randomizar orden de respuestas
-        let respuestas = pregunta.incorrect_answers;
-        respuestas.push(pregunta.correct_answer);
+        let respuestas = _pregunta.incorrect_answers;
+        respuestas.push(_pregunta.correct_answer);
         for (let i = respuestas.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [respuestas[i], respuestas[j]] = [respuestas[j], respuestas[i]];
@@ -135,7 +132,7 @@ export default function Pregunta() {
         <div class="text-center">
             <div class="question shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
-                    ${pregunta.question}
+                    ${_pregunta.question}
                 </h1>
             </div>
             <div class="botonesContainer">
@@ -170,20 +167,21 @@ export default function Pregunta() {
 
     function _submitRespuesta(event) {
         event.preventDefault();
+
         const botones = Array.from(
             _this.root.querySelectorAll('[data-js="button"]')
         );
-
         const correctAudio = new Audio("/src/global/media/correcto.mp3");
         const incorrectAudio = new Audio("/src/global/media/incorrecto.mp3");
+        const respuestasCorrecta = _pregunta.correct_answer;
         botones.forEach((boton) => {
             boton.disabled = true;
-            if (boton.value === _respuestasCorrecta) {
+            if (boton.value === respuestasCorrecta) {
                 boton.classList.remove("btn-light");
                 boton.classList.add("btn-success");
             }
             if (boton.value === event.submitter.value) {
-                if (boton.value != _respuestasCorrecta) {
+                if (boton.value != respuestasCorrecta) {
                     boton.classList.remove("btn-light");
                     boton.classList.add("btn-danger");
                     incorrectAudio.play();
@@ -195,7 +193,6 @@ export default function Pregunta() {
 
         const data = {
             pregunta: _pregunta,
-            respuestaCorrecta: _respuestasCorrecta,
             respuesta: event.submitter.value,
         };
 
@@ -211,25 +208,24 @@ export default function Pregunta() {
                 if (response.status === "success") {
                     _cantPreg = response.data.cantidadPreguntas;
                     _maxPreg = response.data.maximoPreguntas;
-                    if (response.data.cheating != undefined) {
-                        _juegoTerminadoTrampa();
+
+                    if (_cantPreg > _maxPreg) {
+                        _juegoTerminado();
                     } else {
-                        if (_cantPreg > _maxPreg) {
-                            _juegoTerminado();
+                        if (respuestasCorrecta === event.submitter.value) {
+                            _respuestaCorrecta();
                         } else {
-                            if (_respuestasCorrecta === event.submitter.value) {
-                                _respuestaCorrecta();
-                            } else {
-                                _respuestaInorrecta();
-                            }
+                            _respuestaInorrecta();
                         }
                     }
                     _showBtnSiguiente();
+
                 } else {
                     _juegoTerminadoError();
                 }
             })
             .catch((e) => {
+                console.log(e)
                 _juegoTerminadoError();
             });
     }
@@ -289,16 +285,6 @@ export default function Pregunta() {
                         ? "/puntuacion"
                         : `/pregunta/${_dificultad}`;
             }
-        });
-    }
-
-    function _juegoTerminadoTrampa() {
-        Sweetalert2.fire({
-            icon: "warning",
-            title: "No hagas trampas",
-            confirmButtonText: "Volver a empezar",
-        }).then(() => {
-            location.href = "/";
         });
     }
 

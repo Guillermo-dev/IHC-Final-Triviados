@@ -2,8 +2,6 @@
 
 namespace controllers;
 
-use api\Preguntas;
-
 abstract class Home {
 
     public static function index(): void {
@@ -11,14 +9,20 @@ abstract class Home {
         echo file_get_contents('src/pages/home/home.html');
     }
 
+    public static function iniciarPartida(string $dificultad, int $cantPreguntas): void {
+        $_SESSION['partida']['dificultad'] = $dificultad;
+        $_SESSION['partida']['maximoPreguntas'] = $cantPreguntas + 1;
+        $_SESSION['partida']['cantidadPreguntas'] = 1;
+        $_SESSION['partida']['puntuacion'] = 0;
+        $_SESSION['partida']['preguntas'] = array();
+        $_SESSION['cargas'] = 0;
+    }
+
     public static function preguntaEasy(): void {
-        if (!isset($_SESSION['dificultad'])) {
-            $_SESSION['dificultad'] = 'easy';
-        } else if ($_SESSION['dificultad'] != 'easy') {
+        if (!isset($_SESSION['partida'])) {
+            self::iniciarPartida('easy', 2);
+        } else if ($_SESSION['partida']['dificultad'] != 'easy') {
             header('Location: /');
-        }
-        if (!isset($_SESSION['cargas'])) {
-            $_SESSION['cargas'] = 0;
         }
         $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');
@@ -26,12 +30,9 @@ abstract class Home {
 
     public static function preguntaMedium(): void {
         if (!isset($_SESSION['dificultad'])) {
-            $_SESSION['dificultad'] = 'medium';
+            self::iniciarPartida('medium', 15);
         } else if ($_SESSION['dificultad'] != 'medium') {
             header('Location: /');
-        }
-        if (!isset($_SESSION['cargas'])) {
-            $_SESSION['cargas'] = 0;
         }
         $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');
@@ -39,12 +40,9 @@ abstract class Home {
 
     public static function preguntaHard(): void {
         if (!isset($_SESSION['dificultad'])) {
-            $_SESSION['dificultad'] = 'hard';
+            self::iniciarPartida('hard', 20);
         } else if ($_SESSION['dificultad'] != 'hard') {
             header('Location: /');
-        }
-        if (!isset($_SESSION['cargas'])) {
-            $_SESSION['cargas'] = 0;
         }
         $_SESSION['cargas'] += 1;
         echo file_get_contents('src/pages/pregunta/pregunta.html');

@@ -88,20 +88,16 @@ export default function Puntuacion() {
             .then((response) => {
                 if (response.status === "success") {
                     _this.setClassState("css-loaded");
-                    const { puntuacion, puntuacionPerfecta, mensaje } =
+                    const { puntuacion, puntuacionMaxima, mensaje } =
                         response.data;
-                    if (response.data.cheating != undefined) {
-                        _juegoTerminadoTrampa();
-                    } else {
-                        _confetti();
+                        _TirarConfetti();
                         puntuacionAudio.play();
                         puntuacionAudio.volume = 0.1;
                         _processPuntuacion(
                             puntuacion,
-                            puntuacionPerfecta,
+                            puntuacionMaxima,
                             mensaje
                         );
-                    }
                 } else {
                     _errorInernoAlert();
                 }
@@ -111,14 +107,14 @@ export default function Puntuacion() {
             });
     }
 
-    function _processPuntuacion(puntuacion, puntuacionPerfecta, mensaje) {
+    function _processPuntuacion(puntuacion, puntuacionMaxima, mensaje) {
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
             <div class="text-center">
                 <div class="score shadow rounded m-5 p-sm-2 bg-light row align-items-center">
                     <div class="col">
                         <h1 class="display-1 fw-bold">Puntuacion</h1>
-                        <p class="display-3">${puntuacion}/${puntuacionPerfecta}</p>
+                        <p class="display-3">${puntuacion}/${puntuacionMaxima}</p>
                         <p class="display-4">${mensaje}</p>
                     </div>
                 </div>
@@ -136,16 +132,6 @@ export default function Puntuacion() {
         };
     }
 
-    function _juegoTerminadoTrampa() {
-        Sweetalert2.fire({
-            icon: "warning",
-            title: "No hagas trampas",
-            confirmButtonText: "Volver a empezar",
-        }).then(() => {
-            location.href = "/";
-        });
-    }
-
     function _errorInernoAlert() {
         Sweetalert2.fire({
             icon: "question",
@@ -157,7 +143,7 @@ export default function Puntuacion() {
         });
     }
 
-    function _confetti() {
+    function _TirarConfetti() {
         let duration = 15 * 10000;
         const colors = [
             "#EF196F",

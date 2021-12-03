@@ -14,37 +14,30 @@ abstract class Puntuaciones {
         else {
             $mensaje = '';
             $puntuacion = $_SESSION['partida']['puntuacion'];
-            $puntuacionPerfecta = 0;
-            switch ($_SESSION['dificultad']) {
+            $puntuacionMaxima = 0;
+            switch ($_SESSION['partida']['dificultad']) {
                 case 'easy':
-                    $puntuacionPerfecta = 100;
+                    $puntuacionMaxima = 100;
                     break;
                 case 'medium':
-                    $puntuacionPerfecta = 150;
+                    $puntuacionMaxima = 150;
                     break;
                 case 'hard':
-                    $puntuacionPerfecta = 200;
+                    $puntuacionMaxima = 200;
                     break;
             }
             if ($puntuacion < 0)
                 $mensaje = 'Mas suerte la proxima vez';
-            else if ($puntuacion == $puntuacionPerfecta)
+            else if ($puntuacion == $puntuacionMaxima)
                 $mensaje = 'Partida perfecta!!';
-            else if ($puntuacion >= $puntuacionPerfecta / 2)
+            else if ($puntuacion >= $puntuacionMaxima / 2)
                 $mensaje = 'Muy buena partida';
-            else if ($puntuacion <= $puntuacionPerfecta / 2)
+            else if ($puntuacion <= $puntuacionMaxima / 2)
                 $mensaje = 'Buena partida';
         }
 
-        // "Anti-cheats" 
-        if ($_SESSION['cargas'] > $_SESSION['partida']['cantidadPreguntas']) {
-            $_SESSION['partida']['cheating'] = true;
-        }
-        if (isset($_SESSION['partida']['cheating']))
-            Response::getResponse()->appendData('cheating', true);
-
         Response::getResponse()->appendData('puntuacion', $puntuacion);
-        Response::getResponse()->appendData('puntuacionPerfecta', $puntuacionPerfecta);
+        Response::getResponse()->appendData('puntuacionMaxima', $puntuacionMaxima);
         Response::getResponse()->appendData('mensaje', $mensaje);
     }
 }

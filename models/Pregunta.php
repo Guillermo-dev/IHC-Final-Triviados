@@ -99,12 +99,6 @@ class Pregunta  implements JsonSerializable {
                 array_push($preguntas, $pregunta);
             }
             $i = rand(0, count($preguntas) - 1);
-
-            if (isset($_SESSION['partida'])) {
-                while (in_array($preguntas[$i]->getQuestion(), $_SESSION['partida']['preguntas'])) {
-                    $i = rand(0, count($preguntas) - 1);
-                }
-            }
         } else
             throw new Exception('No existen preguntas disponibles');
 
