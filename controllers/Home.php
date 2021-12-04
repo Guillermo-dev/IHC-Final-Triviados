@@ -4,7 +4,7 @@ namespace controllers;
 
 abstract class Home {
 
-    public static function iniciarPartida(string $dificultad, int $cantPreguntas): void {
+    private static function iniciarPartida(string $dificultad, int $cantPreguntas): void {
         $_SESSION['partida']['dificultad'] = $dificultad;
         $_SESSION['partida']['maximoPreguntas'] = $cantPreguntas + 1;
         $_SESSION['partida']['cantidadPreguntas'] = 1;
@@ -13,20 +13,24 @@ abstract class Home {
         $_SESSION['cargas'] = 0;
     }
 
+    private static function continuarPartida() {
+        switch ($_SESSION['partida']['dificultad']) {
+            case 'easy':
+                header('Location: /pregunta/easy');
+                break;
+            case 'medium':
+                header('Location: /pregunta/medium');
+                break;
+            case 'hard':
+                header('Location: /pregunta/hard');
+                break;
+        }
+    }
+
     public static function index(): void {
         if (isset($_SESSION['partida'])) {
             if ($_SESSION['partida']['maximoPreguntas'] != $_SESSION['partida']['cantidadPreguntas']) {
-                switch ($_SESSION['partida']['dificultad']) {
-                    case 'easy':
-                        header('Location: /pregunta/easy');
-                        break;
-                    case 'medium':
-                        header('Location: /pregunta/medium');
-                        break;
-                    case 'hard':
-                        header('Location: /pregunta/hard');
-                        break;
-                }
+                self::continuarPartida();
             } else {
                 session_destroy();
                 echo file_get_contents('src/pages/home/home.html');
@@ -70,6 +74,13 @@ abstract class Home {
     }
 
     public static function puntuacion(): void {
+        if (isset($_SESSION['partida'])) {
+            if ($_SESSION['partida']['maximoPreguntas'] != $_SESSION['partida']['cantidadPreguntas']) {
+                self::continuarPartida();
+            } else {
+                echo file_get_contents('src/pages/puntuacion/puntuacion.html');
+            }
+        }
         echo file_get_contents('src/pages/puntuacion/puntuacion.html');
     }
 }
