@@ -40,6 +40,9 @@ abstract class Preguntas {
         else 
             $_SESSION['partida']['puntuacion'] -= 5;
 
+        if($_SESSION['partida']['maximoPreguntas'] == $_SESSION['partida']['cantidadPreguntas'])
+            $_SESSION['partida']['finalizada'] = true;
+
         Response::getResponse()->appendData('maximoPreguntas', $_SESSION['partida']['maximoPreguntas']);
         Response::getResponse()->appendData('cantidadPreguntas', $_SESSION['partida']['cantidadPreguntas']);
     }

@@ -6,6 +6,7 @@ abstract class Home {
 
     private static function iniciarPartida(string $dificultad, int $cantPreguntas): void {
         $_SESSION['partida']['dificultad'] = $dificultad;
+        $_SESSION['partida']['finalizada'] = false;
         $_SESSION['partida']['maximoPreguntas'] = $cantPreguntas + 1;
         $_SESSION['partida']['cantidadPreguntas'] = 1;
         $_SESSION['partida']['puntuacion'] = 0;
@@ -29,7 +30,7 @@ abstract class Home {
 
     public static function index(): void {
         if (isset($_SESSION['partida'])) {
-            if ($_SESSION['partida']['maximoPreguntas'] != $_SESSION['partida']['cantidadPreguntas']) {
+            if (!$_SESSION['partida']['finalizada']) {
                 self::continuarPartida();
             } else {
                 session_destroy();
@@ -75,7 +76,7 @@ abstract class Home {
 
     public static function puntuacion(): void {
         if (isset($_SESSION['partida'])) {
-            if ($_SESSION['partida']['maximoPreguntas'] != $_SESSION['partida']['cantidadPreguntas']) {
+            if (!$_SESSION['partida']['finalizada']) {
                 self::continuarPartida();
             } else {
                 echo file_get_contents('src/pages/puntuacion/puntuacion.html');
