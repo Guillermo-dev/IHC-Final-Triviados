@@ -309,8 +309,8 @@ export default function Pregunta() {
     function _terminarPartida(){
         Sweetalert2.fire({
             icon: "question",
-            title: "¿Terminar partida?",
-            html: "¿Seguro que quiere terminar la partida? Perdera todo el progreso",
+            title: "Terminar partida",
+            html: "¿Seguro que quiere terminar la partida? Perderas todo el progreso",
             confirmButtonText: "Seguro!",
             cancelButtonText: "cancelar",
             showCancelButton: true,
