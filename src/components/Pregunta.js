@@ -14,7 +14,7 @@ createStyle()._content(`
     }
 
     .preguntaContainer{
-        margin: 5rem 4rem !important;
+        margin: 5rem  4rem 2rem !important
     }
 
     .terminarPartidaBtn {

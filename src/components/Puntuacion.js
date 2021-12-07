@@ -14,7 +14,7 @@ createStyle()._content(`
     }
 
     .scoreContainer{
-        margin: 5rem 4rem !important;
+        margin: 5rem  4rem 2rem !important
     }
 
     .botonContainer {
