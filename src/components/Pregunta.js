@@ -14,9 +14,7 @@ createStyle()._content(`
     }
 
     .preguntaContainer{
-        min-height: 450px;
-        min-width: 700px;
-        margin-top: 5rem!important;
+        margin: 5rem 4rem !important;
     }
 
     .terminarPartidaBtn {
@@ -25,7 +23,7 @@ createStyle()._content(`
         left:10px;
     }
 
-    @media(max-width: 1400px) {
+    @media (max-width: 1400px) {
         .preguntaContainer{
             min-height: 300px;
             min-width: 500px;
@@ -36,10 +34,10 @@ createStyle()._content(`
         .preguntaContainer{
             min-height: 200px;
             min-width: 250px;
-            margin: 5rem 0 !important
+            margin: 5rem 0 !important;
         }
         h1 {
-            font-size : 20px
+            font-size : 20px;
         }
         button {
             font-size : 16px !important;
@@ -162,7 +160,7 @@ export default function Pregunta() {
                 </h1>
             </div>
             <div class="botonesContainer mb-2">
-                <form class="p-4" data-js="PreguntaForm">
+                <form class="p-4 pb-0" data-js="PreguntaForm">
                     <div class="row content">
                         <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value="${respuestas[0]}">
                             ${respuestas[0]}
