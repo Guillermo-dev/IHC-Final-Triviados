@@ -9,9 +9,6 @@ createStyle()._content(`
     .Puntuacion:not(.css-loading) .css-loading{
         display: none !important;
     }
-    .Puntuacion{
-        overflow: hidden;
-    }
 
     .scoreContainer{
         margin: 5rem  4rem 2rem !important

@@ -9,9 +9,6 @@ createStyle()._content(`
     .Pregunta:not(.css-loading) .css-loading{
         display: none !important;
     }
-    .Pregunta{
-        overflow: hidden;
-    }
 
     .preguntaContainer{
         margin: 5rem  4rem 2rem !important
