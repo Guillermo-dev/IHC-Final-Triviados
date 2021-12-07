@@ -9,8 +9,11 @@ createStyle()._content(`
     .Puntuacion:not(.css-loading) .css-loading{
         display: none !important;
     }
-    .Puntuacion{
-        overflow: hidden;
+
+    .scoreContainer{
+        min-height: 450px;
+        min-width: 700px;
+        margin: 5rem  4rem 2rem !important
     }
 
     .botonContainer {
@@ -20,23 +23,18 @@ createStyle()._content(`
         width: 100vw;
     }
 
-    .score{
-        margin-top: 5rem!important;
-        min-height: 450px;
-        min-width: 700px;
-    }
-
     @media(max-width: 1400px) {
-        .score{
+        .scoreContainer{
             min-height: 300px;
             min-width: 500px;
         }
     }
 
-    @media (max-width: 768px) {
-        .score{
-            min-height: 250px;
-            min-width: auto;
+    @media(max-width: 768px) {
+        .scoreContainer{
+            min-height: 200px;
+            min-width: 250px;
+            margin: 5rem 0 !important;
         }
         h1 {
             font-size: 32px !important;
@@ -52,14 +50,14 @@ export default function Puntuacion() {
     this.name = "Puntuacion";
     this.root = createElement("div")._class("Puntuacion")._html(`
     <!--Loading-->
-    <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
+    <div class="css-loading text-center d-flex justify-content-center align-items-center flex-column">
         <div class="text-center">
-            <div class="score shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+            <div class="scoreContainer shadow rounded mb-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     <span class="spinner-border"></span>
                 </h1>
             </div>
-            <div>
+            <div class="botonContainer">
                 <button class="btn btn-light btn-lg m-3 py-3 fw-bold shadow rounded" disabled>
                     <span class="spinner-border"></span>
                 </button>
@@ -112,7 +110,7 @@ export default function Puntuacion() {
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
             <div class="text-center">
-                <div class="score shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+                <div class="scoreContainer shadow rounded mb-5 p-sm-2 bg-light row align-items-center">
                     <div class="col">
                         <h1 class="display-1 fw-bold">Puntuacion</h1>
                         <p class="display-3">${puntuacion}/${puntuacionMaxima}</p>

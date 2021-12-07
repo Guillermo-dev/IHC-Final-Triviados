@@ -11,7 +11,7 @@ abstract class Puntuaciones {
         if (!isset($_SESSION['partida']))
             throw new Exception('No se pudo encontrar la partida');
         else {
-            $puntuacionMaxima = ($_SESSION['partida']['maximoPreguntas'] -1) * 10;
+            $puntuacionMaxima = ($_SESSION['partida']['maximoPreguntas'] -1) * 50;
             $puntuacion = $_SESSION['partida']['puntuacion'];
 
             // TODO:
