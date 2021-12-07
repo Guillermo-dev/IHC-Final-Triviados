@@ -36,6 +36,7 @@ createStyle()._content(`
         .preguntaContainer{
             min-height: 200px;
             min-width: 250px;
+            margin: 5rem 0 !important
         }
         h1 {
             font-size : 20px
@@ -46,8 +47,13 @@ createStyle()._content(`
         .botonesContainer {
             position: absolute;
             left: 0;
-            bottom: 5%;
+            bottom: 0;
             right: 0;
+        }
+    }
+    @media (max-width: 576px) {
+        button {
+            font-size : 13px !important;
         }
     }
 `);
@@ -57,7 +63,7 @@ export default function Pregunta() {
     this.name = "Pregunta";
     this.root = createElement("div")._class("Pregunta")._html(`
     <button class="terminarPartidaBtn btn btn-danger bi bi-power" data-js="terminarPartidaBtn">
-        Termiar partida 
+         Salir
     </button>
     <!--Loading-->
     <div class="css-loading p-3 text-center d-flex justify-content-center align-items-center flex-column">
@@ -67,7 +73,7 @@ export default function Pregunta() {
                     <span class="spinner-border"></span>
                 </h1>
             </div>
-            <div class="botonesContainer">
+            <div class="botonesContainer mb-2">
                 <form class="p-4">
                     <div class="row content">
                         <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" disabled>
@@ -149,13 +155,13 @@ export default function Pregunta() {
 
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
-        <div class="text-center mt-5">
-            <div class="preguntaContainer shadow rounded m-5 p-sm-2 bg-light row align-items-center">
+        <div class="text-center">
+            <div class="preguntaContainer shadow rounded my-5 p-sm-2 bg-light row align-items-center">
                 <h1 class="col">
                     ${_pregunta.question}
                 </h1>
             </div>
-            <div class="botonesContainer">
+            <div class="botonesContainer mb-2">
                 <form class="p-4" data-js="PreguntaForm">
                     <div class="row content">
                         <button class="btn btn-light btn-lg m-3 py-3 fw-bold col shadow rounded" data-js="button" value="${respuestas[0]}">
