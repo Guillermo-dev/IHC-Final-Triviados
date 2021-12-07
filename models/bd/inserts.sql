@@ -647,6 +647,6 @@ INSERT INTO preguntas (difficulty, question, correct_answer, incorrect_answer1, 
 
 /*
 easy 180
-medium 191
-hard 275
+medium 190
+hard 274
 */
