@@ -11,6 +11,8 @@ createStyle()._content(`
     }
 
     .preguntaContainer{
+        min-height: 450px;
+        min-width: 700px;
         margin: 5rem  4rem 2rem !important
     }
 
