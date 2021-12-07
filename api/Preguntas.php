@@ -36,9 +36,9 @@ abstract class Preguntas {
         $_SESSION['partida']['cantidadPreguntas'] += 1;
         
         if ($data->pregunta->correct_answer == $data->respuesta)
-            $_SESSION['partida']['puntuacion'] += 10;
+            $_SESSION['partida']['puntuacion'] += 50;
         else 
-            $_SESSION['partida']['puntuacion'] -= 5;
+            $_SESSION['partida']['puntuacion'] -= 10;
 
         if($_SESSION['partida']['maximoPreguntas'] == $_SESSION['partida']['cantidadPreguntas'])
             $_SESSION['partida']['finalizada'] = true;

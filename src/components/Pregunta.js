@@ -269,7 +269,7 @@ export default function Pregunta() {
         Sweetalert2.fire({
             icon: "success",
             title: "Respuesta correcta",
-            html: "+10 puntos",
+            html: "+50 puntos",
             confirmButtonText:
                 _cantPreg >= _maxPreg ? "Ver puntuacion" : "Siguiente pregunta",
             cancelButtonText: "cancelar",
@@ -290,7 +290,7 @@ export default function Pregunta() {
         Sweetalert2.fire({
             icon: "error",
             title: "Respuesta incorrecta",
-            html: "-5 puntos",
+            html: "-10 puntos",
             confirmButtonText:
                 _cantPreg >= _maxPreg ? "Ver puntuacion" : "Siguiente pregunta",
             cancelButtonText: "cancelar",
