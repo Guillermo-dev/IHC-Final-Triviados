@@ -87,16 +87,10 @@ export default function Puntuacion() {
             .then((response) => {
                 if (response.status === "success") {
                     _this.setClassState("css-loaded");
-                    const { puntuacion, puntuacionMaxima, mensaje } =
-                        response.data;
-                        _TirarConfetti();
-                        puntuacionAudio.play();
-                        puntuacionAudio.volume = 0.1;
-                        _processPuntuacion(
-                            puntuacion,
-                            puntuacionMaxima,
-                            mensaje
-                        );
+                    _TirarConfetti();
+                    puntuacionAudio.play();
+                    puntuacionAudio.volume = 0.1;
+                    _processPuntuacion(response.data);
                 } else {
                     _juegoTerminadoError();
                 }
@@ -106,12 +100,14 @@ export default function Puntuacion() {
             });
     }
 
-    function _processPuntuacion(puntuacion, puntuacionMaxima, mensaje) {
+    function _processPuntuacion(data) {
+        const { puntuacion, puntuacionMaxima, mensaje, MejorPuntuacion } = data;
         _content.append(
             (_this.root = createElement("div")._class("pregunta")._html(`
             <div class="text-center">
                 <div class="scoreContainer shadow rounded mb-5 p-sm-2 bg-light row align-items-center">
                     <div class="col">
+                        <p class="display-4">Tu mejor puntuacion: ${MejorPuntuacion}</p>
                         <h1 class="display-1 fw-bold">Puntuacion</h1>
                         <p class="display-3">${puntuacion}/${puntuacionMaxima}</p>
                         <p class="display-4">${mensaje}</p>
@@ -152,7 +148,12 @@ export default function Puntuacion() {
             "#F9B81B",
             "#FFFFFF",
         ];
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+        const defaults = {
+            startVelocity: 30,
+            spread: 360,
+            ticks: 60,
+            zIndex: 0,
+        };
         function randomInRange(min, max) {
             return Math.random() * (max - min) + min;
         }
